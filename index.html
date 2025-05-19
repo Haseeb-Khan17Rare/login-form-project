@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login Form with Register & Forgot Password</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="h-screen w-screen bg-cover bg-center flex items-center justify-center" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');">
+
+  <!-- Card Container -->
+  <div id="authCard" class="bg-black/40 backdrop-blur-lg border border-white/20 text-white rounded-xl shadow-2xl w-full max-w-sm px-8 py-10 space-y-6 z-10">
+
+    <!-- Title -->
+    <h2 id="formTitle" class="text-3xl font-bold text-center text-white drop-shadow">Login to Your Account</h2>
+
+    <!-- Forms container -->
+    <div id="formsContainer">
+
+      <!-- Login Form -->
+      <form id="loginForm" class="space-y-5 fade-in">
+
+        <div>
+          <label for="loginEmail" class="block text-sm mb-1 text-white/90 font-medium drop-shadow">Email Address</label>
+          <input id="loginEmail" type="email" placeholder="example@domain.com" required
+            class="w-full px-4 py-2 rounded-md bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/30 shadow-md transition" />
+        </div>
+
+        <div>
+          <label for="loginPassword" class="block text-sm mb-1 text-white/90 font-medium drop-shadow">Password</label>
+          <input id="loginPassword" type="password" placeholder="••••••••" required
+            class="w-full px-4 py-2 rounded-md bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/30 shadow-md transition" />
+        </div>
+
+        <div class="flex justify-between text-sm text-white/80 drop-shadow-sm">
+          <label><input type="checkbox" id="rememberMe" class="mr-1"> Remember me</label>
+          <button type="button" id="forgotPasswordLink" class="hover:underline focus:outline-none">Forgot password?</button>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-white text-black py-2 rounded-md font-semibold shadow-lg hover:bg-gray-200 transition">
+          Log In
+        </button>
+
+        <p class="text-sm text-center text-white/90">Don't have an account?
+          <button type="button" id="registerLink" class="underline text-white font-medium hover:text-gray-100 focus:outline-none">Register</button>
+        </p>
+      </form>
+
+      <!-- Register Form (hidden initially) -->
+      <form id="registerForm" class="space-y-5 hidden fade-in">
+
+        <div>
+          <label for="registerEmail" class="block text-sm mb-1 text-white/90 font-medium drop-shadow">Email Address</label>
+          <input id="registerEmail" type="email" placeholder="example@domain.com" required
+            class="w-full px-4 py-2 rounded-md bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/30 shadow-md transition" />
+        </div>
+
+        <div>
+          <label for="registerPassword" class="block text-sm mb-1 text-white/90 font-medium drop-shadow">Password</label>
+          <input id="registerPassword" type="password" placeholder="••••••••" required
+            class="w-full px-4 py-2 rounded-md bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/30 shadow-md transition" />
+        </div>
+
+        <div>
+          <label for="confirmPassword" class="block text-sm mb-1 text-white/90 font-medium drop-shadow">Confirm Password</label>
+          <input id="confirmPassword" type="password" placeholder="••••••••" required
+            class="w-full px-4 py-2 rounded-md bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/30 shadow-md transition" />
+        </div>
+
+        <button type="submit"
+          class="w-full bg-white text-black py-2 rounded-md font-semibold shadow-lg hover:bg-gray-200 transition">
+          Register
+        </button>
+
+        <p class="text-sm text-center text-white/90">
+          Already have an account?
+          <button type="button" id="backToLoginFromRegister" class="underline text-white font-medium hover:text-gray-100 focus:outline-none">Login</button>
+        </p>
+      </form>
+
+      <!-- Forgot Password Form (hidden initially) -->
+      <form id="forgotForm" class="space-y-5 hidden fade-in">
+
+        <div>
+          <label for="forgotEmail" class="block text-sm mb-1 text-white/90 font-medium drop-shadow">Enter your email to reset password</label>
+          <input id="forgotEmail" type="email" placeholder="example@domain.com" required
+            class="w-full px-4 py-2 rounded-md bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/30 shadow-md transition" />
+        </div>
+
+        <button type="submit"
+          class="w-full bg-white text-black py-2 rounded-md font-semibold shadow-lg hover:bg-gray-200 transition">
+          Send Reset Link
+        </button>
+
+        <p class="text-sm text-center text-white/90">
+          Remembered your password?
+          <button type="button" id="backToLoginFromForgot" class="underline text-white font-medium hover:text-gray-100 focus:outline-none">Login</button>
+        </p>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Message Overlay -->
+  <div id="messageDiv" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+    <div id="messageBox" class="bg-white max-w-md w-[90%] rounded-xl shadow-xl border p-6 text-center relative fade-in">
+      <div id="messageIcon" class="flex justify-center mb-4"></div>
+      <div id="messageText" class="text-gray-800 text-base leading-relaxed px-2"></div>
+      <button onclick="closeMessage()"
+        class="mt-6 px-5 py-2 bg-gray-900 text-white rounded hover:bg-gray-700 transition">Close</button>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Elements
+    const formsContainer = document.getElementById('formsContainer');
+    const formTitle = document.getElementById('formTitle');
+
+    // Forms
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const forgotForm = document.getElementById('forgotForm');
+
+    // Links/buttons to toggle views
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    const registerLink = document.getElementById('registerLink');
+    const backToLoginFromRegister = document.getElementById('backToLoginFromRegister');
+    const backToLoginFromForgot = document.getElementById('backToLoginFromForgot');
+
+    // Message elements
+    const messageDiv = document.getElementById('messageDiv');
+    const messageText = document.getElementById('messageText');
+    const messageIcon = document.getElementById('messageIcon');
+    const messageBox = document.getElementById('messageBox');
+
+    // Predefined valid credentials for demo
+    const validEmail = "abc@gmail.com";
+    const validPassword = "12345678";
+
+    // Icons for messages
+    const successIcon = `
+      <div class="bg-green-100 p-3 rounded-full inline-block">
+        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>`;
+
+    const errorIcon = `
+      <div class="bg-red-100 p-3 rounded-full inline-block">
+        <svg class="w-10 h-10 text-red-600" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </div>`;
+
+    // Utility: Show a specific form and update title
+    function showForm(form) {
+      loginForm.classList.add('hidden');
+      registerForm.classList.add('hidden');
+      forgotForm.classList.add('hidden');
+
+      form.classList.remove('hidden');
+      form.classList.add('fade-in');
+
+      // Update title based on form
+      if (form === loginForm) {
+        formTitle.textContent = "Login to Your Account";
+      } else if (form === registerForm) {
+        formTitle.textContent = "Create a New Account";
+      } else if (form === forgotForm) {
+        formTitle.textContent = "Reset Your Password";
+      }
+    }
+
+    // Close message overlay
+    function closeMessage() {
+      messageDiv.classList.add("hidden");
+    }
+
+    // Show message overlay with icon and text
+    function showMessage(success, title, messages) {
+      if (success) {
+        messageBox.classList.remove("border-red-200");
+        messageBox.classList.add("border-green-300");
+        messageIcon.innerHTML = successIcon;
+      } else {
+        messageBox.classList.remove("border-green-300");
+        messageBox.classList.add("border-red-200");
+        messageIcon.innerHTML = errorIcon;
+      }
+
+      messageText.innerHTML = `<h3 class="text-xl font-semibold mb-2 ${success ? 'text-green-700' : 'text-red-700'}">${title}</h3>`;
+      if (Array.isArray(messages)) {
+        messageText.innerHTML += messages.map(m => `<p>${m}</p>`).join('');
+      } else {
+        messageText.innerHTML += `<p>${messages}</p>`;
+      }
+      messageDiv.classList.remove("hidden");
+    }
+
+    // Initial form view
+    showForm(loginForm);
+
+    // Event Listeners to toggle forms
+    forgotPasswordLink.addEventListener('click', () => showForm(forgotForm));
+    registerLink.addEventListener('click', () => showForm(registerForm));
+    backToLoginFromRegister.addEventListener('click', () => showForm(loginForm));
+    backToLoginFromForgot.addEventListener('click', () => showForm(loginForm));
+
+    // Login form submit
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const email = loginForm.loginEmail.value.trim().toLowerCase();
+      const password = loginForm.loginPassword.value.trim();
+
+      if (email === validEmail && password === validPassword) {
+        showMessage(true, "Login Successful", [`Welcome back, <strong>${email}</strong>!`]);
+      } else {
+        showMessage(false, "Login Failed", "Incorrect email or password. Please try again.");
+      }
+    });
+
+    // Register form submit
+    registerForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const email = registerForm.registerEmail.value.trim().toLowerCase();
+      const password = registerForm.registerPassword.value.trim();
+      const confirmPassword = registerForm.confirmPassword.value.trim();
+
+      // Simple validations
+      if (!email || !password || !confirmPassword) {
+        showMessage(false, "Registration Error", "All fields are required.");
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage(false, "Registration Error", "Password must be at least 6 characters.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage(false, "Registration Error", "Passwords do not match.");
+        return;
+      }
+
+      // Fake registration success (no backend)
+      showMessage(true, "Registration Successful", [
+        `Account created for <strong>${email}</strong>.`,
+        "You can now login with your credentials."
+      ]);
+      registerForm.reset();
+      showForm(loginForm);
+    });
+
+    // Forgot password form submit
+    forgotForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const email = forgotForm.forgotEmail.value.trim().toLowerCase();
+
+      if (!email) {
+        showMessage(false, "Error", "Please enter your email address.");
+        return;
+      }
+
+      // Simulate sending email link (no backend)
+      showMessage(true, "Reset Link Sent", [
+        `A password reset link has been sent to <strong>${email}</strong>.`,
+        "Please check your inbox to proceed."
+      ]);
+      forgotForm.reset();
+      showForm(loginForm);
+    });
+  </script>
+</body>
+</html>
